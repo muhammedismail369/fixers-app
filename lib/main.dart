@@ -4,7 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'blocs/auth/auth_bloc.dart';
 import 'blocs/auth/auth_event.dart';
+import 'blocs/auth/auth_state.dart';
 import 'services/auth_service.dart';
+import 'screens/auth_screen.dart';
+import 'screens/main_screen.dart';
 import 'screens/spash_screen.dart';
 
 void main() async {
@@ -47,7 +50,17 @@ class MyApp extends StatelessWidget {
           ),
           useMaterial3: true,
         ),
-        home: const SplashScreen(),
+        home: BlocBuilder<AuthBloc, AuthState>(
+          builder: (context, state) {
+            if (state is AuthInitial || state is AuthLoading) {
+              return const SplashScreen();
+            } else if (state is Authenticated) {
+              return const MainScreen();
+            } else {
+              return const AuthScreen();
+            }
+          },
+        ),
       ),
     );
   }

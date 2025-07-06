@@ -64,7 +64,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     });
 
     // Handle sign out
-    on<AuthSignOutRequested>((event, emit) async {
+    on<SignOutRequested>((event, emit) async {
       emit(AuthLoading());
       try {
         await _authService.signOut();
